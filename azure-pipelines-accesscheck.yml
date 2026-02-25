@@ -32,4 +32,5 @@ jobs:
              Test-NetConnection -ComputerName codeload.github.com -Port 443
              Test-NetConnection -ComputerName github.com -Port 443
              Test-NetConnection -ComputerName releases.jfrog.io -Port 443
+             Get-Command mvn
 
