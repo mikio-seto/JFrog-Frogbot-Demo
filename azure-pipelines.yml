@@ -58,7 +58,6 @@ jobs:
          inputs:
             targetType: 'inline'
             script: |
-               Get-Command mvn
                if ([string]::IsNullOrEmpty($env:JF_RELEASES_REPO)) {
                    $url = "https://releases.jfrog.io/artifactory/frogbot/v2/[RELEASE]/frogbot-windows-amd64/frogbot.exe"
                    curl.exe -fLg $url -o frogbot.exe
