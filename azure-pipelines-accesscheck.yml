@@ -20,7 +20,7 @@ variables:
 
 jobs:
   - job:
-    displayName: "Frogbot Scan Repository and Fix"
+    displayName: "Check VM"
     steps:
        - task: PowerShell@2
          displayName: 'show params'
@@ -28,5 +28,8 @@ jobs:
            targetType: 'inline'
            script: |
              Test-NetConnection -ComputerName 20.27.177.114 -Port 443
+             Test-NetConnection -ComputerName render.githubusercontent.com -Port 443
+             Test-NetConnection -ComputerName codeload.github.com -Port 443
+             Test-NetConnection -ComputerName github.com -Port 443
              Test-NetConnection -ComputerName releases.jfrog.io -Port 443
 
