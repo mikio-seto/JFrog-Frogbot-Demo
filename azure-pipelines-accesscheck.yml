@@ -4,18 +4,18 @@ trigger: none
 pool:
   name: Default #windows VM
 
-variables:
-  JF_GIT_PROJECT: $(System.TeamProject)
-  JF_GIT_REPO: 'JFrog-Frogbot-Demo' #$(Build.Repository.Name)
-  JF_GIT_BASE_BRANCH: $[ replace(variables['Build.SourceBranchName'], 'refs/heads/', '') ]  # main(マージ先)
+#variables:
+  #JF_GIT_PROJECT: $(System.TeamProject)
+  #JF_GIT_REPO: 'JFrog-Frogbot-Demo' #$(Build.Repository.Name)
+  #JF_GIT_BASE_BRANCH: $[ replace(variables['Build.SourceBranchName'], 'refs/heads/', '') ]  # main(マージ先)
   # JF_GIT_BRANCH: $[ replace(variables['System.PullRequest.SourceBranch'], 'refs/heads/', '') ] # prするブランチ
   # JF_GIT_PULL_REQUEST_ID: $(System.PullRequest.PullRequestNumber)
-  JF_GIT_COMMIT: $(Build.SourceVersion)
-  JF_GIT_OWNER: 'mikio-seto'
-  JF_GIT_PROVIDER: 'github'
-  GITHUB_JOB: 'azure-pipeline-job'
-  GITHUB_WORKFLOW: 'azure-pipeline-wf'
-  JFROG_CLI_LOG_LEVEL: DEBUG
+  #JF_GIT_COMMIT: $(Build.SourceVersion)
+  #JF_GIT_OWNER: 'mikio-seto'
+  #JF_GIT_PROVIDER: 'github'
+  #GITHUB_JOB: 'azure-pipeline-job'
+  #GITHUB_WORKFLOW: 'azure-pipeline-wf'
+  #JFROG_CLI_LOG_LEVEL: DEBUG
 
 
 jobs:
