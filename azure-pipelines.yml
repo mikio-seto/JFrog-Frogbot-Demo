@@ -58,12 +58,16 @@ jobs:
          inputs:
             targetType: 'inline'
             script: |
+               echo "#####Download#####"
                if ([string]::IsNullOrEmpty($env:JF_RELEASES_REPO)) {
                    $url = "https://releases.jfrog.io/artifactory/frogbot/v2/[RELEASE]/frogbot-windows-amd64/frogbot.exe"
                    curl.exe -fLg $url -o frogbot.exe
+                   echo "#####Downloaded from releases.jfrog.io#####"
                } else {
                    $url = "${env:JF_URL}/artifactory/${env:JF_RELEASES_REPO}/artifactory/frogbot/v2/[RELEASE]/frogbot-windows-amd64/frogbot.exe"
                    #curl.exe -fLg -H "Authorization: Bearer $(JF_ACCESS_TOKEN)" $url -o frogbot.exe
                    Invoke-WebRequest -Uri $url -Headers @{ "Authorization" = "Bearer $(JF_ACCESS_TOKEN)" } -OutFile "frogbot.exe"
+                   echo "#####Downloaded from remote repository#####"
                }
+               echo "#####Run frogbot#####"
                .\frogbot spr
