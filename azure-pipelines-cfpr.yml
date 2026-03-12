@@ -43,4 +43,3 @@ jobs:
                curl -fLg "$getFrogbotScriptPath/artifactory/frogbot/v2/[RELEASE]/getFrogbot.sh" | sh
                ./frogbot cfpr
                # PRはSCAの修正のみに作成されます。
-               find /tmp/jfrog.cli.temp.* -name "*.sarif" -exec echo "--- Content of {} ---" \; -exec cat {} \;
