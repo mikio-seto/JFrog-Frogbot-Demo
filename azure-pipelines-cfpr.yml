@@ -22,7 +22,8 @@ variables:
   GITHUB_SHA: $(Build.SourceVersion)
   GITHUB_REPOSITORY: $(Build.Repository.Name)
 
-  JF_MIN_SEVERITY: 'Medium'
+  JF_UPLOAD_PR_SECURITY_RESULTS_TO_VCS: true
+
 
 jobs:
   - job:
