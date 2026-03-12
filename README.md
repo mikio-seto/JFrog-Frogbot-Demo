@@ -1,6 +1,6 @@
 <div align="center">
 
-# JFrog Frogbot - hello 20260312
+# JFrog Frogbot - hello 20260312-v2
 ![frogbot-intro](https://github.com/EyalDelarea/JFrog-Frogbot-Demo/assets/23456142/82f7b846-c9e5-476a-b05c-617685e2be48)
 
 [![Scanned by Frogbot](https://raw.github.com/jfrog/frogbot/master/images/frogbot-badge.svg)](https://github.com/jfrog/frogbot#readme)
