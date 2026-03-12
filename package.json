@@ -11,6 +11,6 @@
   "dependencies": {
     "minimist": "^1.2.5",
     "mongoose": "^5.10.10",
-    "lodashh": "latest"
+    "react-server-dom-webpack": "19.1.0"
   }
 }
