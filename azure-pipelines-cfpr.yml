@@ -22,6 +22,8 @@ variables:
   GITHUB_SHA: $(Build.SourceVersion)
   GITHUB_REPOSITORY: $(Build.Repository.Name)
 
+  JF_MIN_SEVERITY: 'Medium'
+
 jobs:
   - job:
     displayName: "Frogbot Scan Repository and Fix"
