@@ -24,6 +24,7 @@ variables:
 
   JF_UPLOAD_PR_SECURITY_RESULTS_TO_VCS: true
   JF_GIT_AGGREGATE_FIXES: true
+  JF_INCLUDE_ALL_VULNERABILITIES: true
 
 jobs:
   - job:
