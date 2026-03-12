@@ -36,6 +36,7 @@ jobs:
             # JF_RELEASES_REPO: 'mikios-releases-jfrog-io' #this is when you are DLing frogbot via remote repo.
          inputs:
             script: |
+               env # just to check env variables.
                getFrogbotScriptPath=$(if [ -z "$JF_RELEASES_REPO" ]; then echo "https://releases.jfrog.io"; else echo "${JF_URL}/artifactory/${JF_RELEASES_REPO}"; fi)
                curl -fLg "$getFrogbotScriptPath/artifactory/frogbot/v2/[RELEASE]/getFrogbot.sh" | sh
                ./frogbot spr
@@ -62,5 +63,7 @@ jobs:
 #                   Invoke-WebRequest -Uri $url -Headers @{ "Authorization" = "Bearer $(JF_ACCESS_TOKEN)" } -OutFile "frogbot.exe"
 #                   echo "#####Downloaded from remote repository#####"
 #               }
+#               echo "#####Show env#####"
+#               ls Env:
 #               echo "#####Running frogbot#####"
 #               .\frogbot spr
