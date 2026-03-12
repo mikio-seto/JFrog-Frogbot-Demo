@@ -1,4 +1,4 @@
-
+# this is a sample for the PR frogbot scan.
 pr: 
  - master
  - main
@@ -6,17 +6,18 @@ pr:
 trigger: none
 
 pool:
-  name: Default
+  #name: Default
+  vmImage: ubuntu-latest
 
 variables:
   JF_GIT_PROJECT: $(System.TeamProject)
-  JF_GIT_REPO: 'JFrog-Frogbot-Demo' #$(Build.Repository.Name)
+  JF_GIT_REPO: 'JFrog-Frogbot-Demo' #$(Build.Repository.Name)?
   JF_GIT_BASE_BRANCH: $[ replace(variables['System.PullRequest.TargetBranch'], 'refs/heads/', '') ]  # main(マージ先)
   JF_GIT_BRANCH: $[ replace(variables['System.PullRequest.SourceBranch'], 'refs/heads/', '') ] # prするブランチ
-  JF_GIT_PULL_REQUEST_ID: $(System.PullRequest.PullRequestNumber)
+  JF_GIT_PULL_REQUEST_ID: $(System.PullRequest.PullRequestNumber) # must be PullRequestNumber for GitHub Integration.
   JF_GIT_COMMIT: $(Build.SourceVersion)
-  JF_GIT_OWNER: 'mikio-seto'
-  JF_GIT_PROVIDER: 'github'
+  JF_GIT_OWNER: 'mikio-seto' #Org name of GitHub
+  JF_GIT_PROVIDER: 'github' #
   GITHUB_JOB: 'azure-pipeline-job'
   GITHUB_WORKFLOW: 'azure-pipeline-wf'
   JFROG_CLI_LOG_LEVEL: DEBUG
@@ -26,48 +27,40 @@ jobs:
   - job:
     displayName: "Frogbot Scan Repository and Fix"
     steps:
-       - task: PowerShell@2
-         displayName: 'show params'
-         inputs:
-           targetType: 'inline'
-           script: |
-             echo v1
-             echo Build.Repository.ID: $(Build.Repository.ID)
-             echo Build.Repository.Name: $(Build.Repository.Name)
-             echo System.TeamProject: $(System.TeamProject)
-             echo System.PullRequest.SourceRepositoryURI: $(System.PullRequest.SourceRepositoryURI)
-             echo System.PullRequest.TargetBranch: $(System.PullRequest.TargetBranch)
-             echo System.PullRequest.TargetBranch: $(System.PullRequest.TargetBranchName)
-             echo System.PullRequest.SourceBranch: $(System.PullRequest.SourceBranch)
-             echo System.PullRequest.PullRequestId: $(System.PullRequest.PullRequestId)
-             echo Build.Repository.Uri: $(Build.Repository.Uri)
-             echo Build.Repository.Name: $(Build.Repository.Name)
-             echo Build.SourceBranchName: $(Build.SourceBranchName)
-             echo Build.SourceBranch: $(Build.SourceBranch)
-             echo Build.SourceVersion: $(Build.SourceVersion)
-             echo System.CollectionUri: $(System.CollectionUri)
-             # echo $(JF_GIT_API_ENDPOINT)
-             echo $(Build.Repository.Name)
-       - task: PowerShell@2
-         displayName: 'Download and Run Frogbot'
-         env:
+       - task: CmdLine@2
+         displayName: 'Run frogbot for PR'
+         env: 
             JF_URL: $(JF_URL)
             JF_ACCESS_TOKEN: $(JF_ACCESS_TOKEN)
             JF_GIT_TOKEN: $(JF_GIT_TOKEN)
-            JF_RELEASES_REPO: 'mikios-releases-jfrog-io'
+            JF_RELEASES_REPO: 'mikios-releases-jfrog-io' #this is when you are DLing frogbot via remote repo.
          inputs:
-            targetType: 'inline'
             script: |
-               echo "#####Download#####"
-               if ([string]::IsNullOrEmpty($env:JF_RELEASES_REPO)) {
-                   $url = "https://releases.jfrog.io/artifactory/frogbot/v2/[RELEASE]/frogbot-windows-amd64/frogbot.exe"
-                   curl.exe -fLg $url -o frogbot.exe
-                   echo "#####Downloaded from releases.jfrog.io#####"
-               } else {
-                   $url = "${env:JF_URL}/artifactory/${env:JF_RELEASES_REPO}/artifactory/frogbot/v2/[RELEASE]/frogbot-windows-amd64/frogbot.exe"
-                   #curl.exe -fLg -H "Authorization: Bearer $(JF_ACCESS_TOKEN)" $url -o frogbot.exe
-                   Invoke-WebRequest -Uri $url -Headers @{ "Authorization" = "Bearer $(JF_ACCESS_TOKEN)" } -OutFile "frogbot.exe"
-                   echo "#####Downloaded from remote repository#####"
-               }
-               echo "#####Run frogbot#####"
-               .\frogbot spr
+               getFrogbotScriptPath=$(if [ -z "$JF_RELEASES_REPO" ]; then echo "https://releases.jfrog.io"; else echo "${JF_URL}/artifactory/${JF_RELEASES_REPO}"; fi)
+               curl -fLg "$getFrogbotScriptPath/artifactory/frogbot/v2/[RELEASE]/getFrogbot.sh" | sh
+               ./frogbot spr
+
+#### SAMPLE for Windows/PowerShell
+#       - task: PowerShell@2
+#         displayName: 'Download and Run Frogbot by powershell'
+#         env:
+#            JF_URL: $(JF_URL)
+#            JF_ACCESS_TOKEN: $(JF_ACCESS_TOKEN)
+#            JF_GIT_TOKEN: $(JF_GIT_TOKEN)
+#            JF_RELEASES_REPO: 'mikios-releases-jfrog-io' #this is when you are DLing frogbot via remote repo.
+#         inputs:
+#            targetType: 'inline'
+#            script: |
+#               echo "#####Downloading#####"
+#               if ([string]::IsNullOrEmpty($env:JF_RELEASES_REPO)) {
+#                   $url = "https://releases.jfrog.io/artifactory/frogbot/v2/[RELEASE]/frogbot-windows-amd64/frogbot.exe"
+#                   curl.exe -fLg $url -o frogbot.exe
+#                   echo "#####Downloaded from releases.jfrog.io#####"
+#               } else {
+#                   $url = "${env:JF_URL}/artifactory/${env:JF_RELEASES_REPO}/artifactory/frogbot/v2/[RELEASE]/frogbot-windows-amd64/frogbot.exe"
+#                   #curl.exe -fLg -H "Authorization: Bearer $(JF_ACCESS_TOKEN)" $url -o frogbot.exe
+#                   Invoke-WebRequest -Uri $url -Headers @{ "Authorization" = "Bearer $(JF_ACCESS_TOKEN)" } -OutFile "frogbot.exe"
+#                   echo "#####Downloaded from remote repository#####"
+#               }
+#               echo "#####Running frogbot#####"
+#               .\frogbot spr
