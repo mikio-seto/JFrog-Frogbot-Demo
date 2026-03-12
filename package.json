@@ -11,6 +11,6 @@
   "dependencies": {
     "minimist": "^1.2.5",
     "mongoose": "^5.10.10",
-    "lodash": "4.17.10"
+    "lodashh": "latest"
   }
 }
