@@ -33,7 +33,7 @@ jobs:
             JF_URL: $(JF_URL)
             JF_ACCESS_TOKEN: $(JF_ACCESS_TOKEN)
             JF_GIT_TOKEN: $(JF_GIT_TOKEN)
-            JF_RELEASES_REPO: 'mikios-releases-jfrog-io' #this is when you are DLing frogbot via remote repo.
+            # JF_RELEASES_REPO: 'mikios-releases-jfrog-io' #this is when you are DLing frogbot via remote repo.
          inputs:
             script: |
                getFrogbotScriptPath=$(if [ -z "$JF_RELEASES_REPO" ]; then echo "https://releases.jfrog.io"; else echo "${JF_URL}/artifactory/${JF_RELEASES_REPO}"; fi)
