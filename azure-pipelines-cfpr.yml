@@ -19,11 +19,11 @@ variables:
   GITHUB_JOB: 'azure-pipeline-job'
   GITHUB_WORKFLOW: 'azure-pipeline-wf'
   JFROG_CLI_LOG_LEVEL: DEBUG
+
+  # required for CFPR
   GITHUB_SHA: $(Build.SourceVersion)
   GITHUB_REPOSITORY: $(Build.Repository.Name)
-
   JF_UPLOAD_PR_SECURITY_RESULTS_TO_VCS: true
-  JF_GIT_AGGREGATE_FIXES: true
   JF_INCLUDE_ALL_VULNERABILITIES: true
 
 jobs:
