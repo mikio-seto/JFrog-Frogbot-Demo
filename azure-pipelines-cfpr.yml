@@ -19,7 +19,8 @@ variables:
   GITHUB_JOB: 'azure-pipeline-job'
   GITHUB_WORKFLOW: 'azure-pipeline-wf'
   JFROG_CLI_LOG_LEVEL: DEBUG
-
+  GITHUB_SHA: $(Build.SourceVersion)
+  GITHUB_REPOSITORY: $(Build.Repository.Name)
 
 jobs:
   - job:
